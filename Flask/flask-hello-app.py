@@ -8,3 +8,7 @@ app = Flask(__name__)
 #to the root route and figures out what to do next
 def index():
     return 'Hello World!'
+    
+# Alternative approach to run a Flask app: using __main__
+if __name__ == "__main__":
+    app.run()
