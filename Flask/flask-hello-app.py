@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 #standart way for creating a flask application
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://USER@localhost:5432/jane'
+#TODO WHY IS THIS HERE ? https://github.com/pallets/flask-sqlalchemy/issues/351
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
 
 class Person(db.Model):
@@ -17,7 +19,8 @@ db.create_all()
 #index is a standart name for the route handler that listens for connections 
 #to the root route and figures out what to do next
 def index():
-    return 'Hello World!'
+        person = Person.query.first()
+        return 'Hello ' + person.name
 
 # Alternative approach to run a Flask app: using __main__
 if __name__ == "__main__":
