@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 #standart way for creating a flask application
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://USER@localhost:5432/jane'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://VasiliA@localhost:5432/jane'
 #TODO WHY IS THIS HERE ? https://github.com/pallets/flask-sqlalchemy/issues/351
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
@@ -14,6 +14,9 @@ class Person(db.Model):
   name = db.Column(db.String(), nullable=False)
 
 db.create_all()
+
+def __repr__(self):
+    return f'<Person ID: {self.id}, name: {self.name}>'
 
 @app.route('/')
 #index is a standart name for the route handler that listens for connections 
