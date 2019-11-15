@@ -23,6 +23,22 @@ class Todo(db.Model):
 
 #db.create_all()
 
+@app.route('/todos/<todo_id>/set-completed', methods=['POST'])
+def set_completed_todo(todo_id):
+  try:
+    completed = request.get_json()['completed']
+    print('completed', completed)
+    print('id',todo_id)
+    todo = Todo.query.get(todo_id)
+    todo.completed = completed
+    db.session.commit()
+  except:
+    db.session.rollback()
+  finally:
+    db.session.close()
+  return redirect(url_for('index'))
+
+
 @app.route('/todos/create', methods=['POST'])
 def create_todo():
     error = False
@@ -46,7 +62,7 @@ def create_todo():
 
 @app.route('/')
 def index():
-  return render_template('index2.html', data=Todo.query.all())
+  return render_template('index2.html', data=Todo.query.order_by('id').all())
 
 # run a Flask app: using __main__
 if __name__ == "__main__":
