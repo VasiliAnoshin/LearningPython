@@ -1,11 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify,abort
 from flask_sqlalchemy import SQLAlchemy
 import sys
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://USER@localhost:5432/jane'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
+
+# start it up so we can start using the Flask database migrate commands to began initializing migrations
+# upgrade/downgrade the generating migrations as well
+migrate = Migrate(app, db) 
 
 class Todo(db.Model):
   __tablename__ = 'todos'
